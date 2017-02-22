@@ -5,7 +5,8 @@
             [duct.server.figwheel :as figwheel]))
 
 (def ^:private build
-  {:source-paths  ["src"]
+  {:id            ::build
+   :source-paths  ["src"]
    :build-options {:output-to  "target/duct/js/main.js"
                    :output-dir "target/duct/js"
                    :optimizations :whitespace}})
