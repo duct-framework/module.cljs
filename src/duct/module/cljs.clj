@@ -11,12 +11,22 @@
                    :output-dir "target/duct/js"
                    :optimizations :whitespace}})
 
+(defn- assoc-compiler [config]
+  (-> config
+      (assoc-in-default [:duct.compiler/cljs :builds] [(ig/ref ::build)])))
+
+(defn- assoc-figwheel [config]
+  (-> config
+      (assoc-in-default [:duct.server/figwheel :css-dirs] ["dev/resources"])
+      (assoc-in-default [:duct.server/figwheel :builds]   [(ig/ref ::build)])))
+
 (defmethod ig/init-key ::build [_ options] options)
 
-(defmethod ig/init-key :duct.module/cljs [_ _]
+(defmethod ig/init-key :duct.module/cljs [_ options]
   (fn [config]
-    (-> config
-        (assoc ::build build)
-        (assoc-in-default [:duct.server/figwheel :css-dirs] ["dev/resources"])
-        (assoc-in-default [:duct.server/figwheel :builds]   [(ig/ref ::build)])
-        (assoc-in-default [:duct.compiler/cljs :builds]     [(ig/ref ::build)]))))
+    (let [env (:environment options (:duct.core/environment config :production))]
+      (-> config
+          (assoc ::build build)
+          (cond->
+            (= env :production)  (assoc-compiler)
+            (= env :development) (assoc-figwheel))))))
