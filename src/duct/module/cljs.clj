@@ -4,7 +4,13 @@
             [duct.core :refer [assoc-in-default]]
             [duct.server.figwheel :as figwheel]))
 
-(def ^:private build
+(def ^:private compiler-build
+  {:source-paths  ["src"]
+   :build-options {:output-to  "target/duct/js/main.js"
+                   :output-dir "target/duct/js"
+                   :optimizations :advanced}})
+
+(def ^:private figwheel-build
   {:id            ::build
    :source-paths  ["src"]
    :build-options {:output-to  "target/duct/js/main.js"
@@ -13,20 +19,16 @@
 
 (defn- assoc-compiler [config]
   (-> config
-      (assoc-in-default [:duct.compiler/cljs :builds] [(ig/ref ::build)])))
+      (assoc-in-default [:duct.compiler/cljs :builds] [compiler-build])))
 
 (defn- assoc-figwheel [config]
   (-> config
       (assoc-in-default [:duct.server/figwheel :css-dirs] ["dev/resources"])
-      (assoc-in-default [:duct.server/figwheel :builds]   [(ig/ref ::build)])))
-
-(defmethod ig/init-key ::build [_ options] options)
+      (assoc-in-default [:duct.server/figwheel :builds]   [figwheel-build])))
 
 (defmethod ig/init-key :duct.module/cljs [_ options]
   (fn [config]
     (let [env (:environment options (:duct.core/environment config :production))]
-      (-> config
-          (assoc ::build build)
-          (cond->
-            (= env :production)  (assoc-compiler)
-            (= env :development) (assoc-figwheel))))))
+      (cond-> config
+        (= env :production)  (assoc-compiler)
+        (= env :development) (assoc-figwheel)))))
