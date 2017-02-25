@@ -15,9 +15,9 @@
    :figwheel      true
    :source-paths  ["src"]
    :build-options {:output-to  "target/duct/js/main.js"
-                   :source-map "target/duct/js/main.js.map"
                    :output-dir "target/duct/js"
-                   :optimizations :whitespace}})
+                   :asset-path "js"
+                   :optimizations :none}})
 
 (defn- assoc-compiler [config]
   (-> config
