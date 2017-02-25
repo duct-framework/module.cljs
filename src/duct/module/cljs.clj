@@ -12,6 +12,7 @@
 
 (def ^:private figwheel-build
   {:id            ::build
+   :figwheel      true
    :source-paths  ["src"]
    :build-options {:output-to  "target/duct/js/main.js"
                    :source-map "target/duct/js/main.js.map"
