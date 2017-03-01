@@ -30,7 +30,7 @@
 (defn- figwheel-build [config options]
   (meta-merge
    (compiler-build config options)
-   {:id            ::build
+   {:id            "dev"
     :figwheel      true
     :build-options {:optimizations :none}}))
 
