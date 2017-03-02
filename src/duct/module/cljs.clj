@@ -32,7 +32,8 @@
    (compiler-build config options)
    {:id            "dev"
     :figwheel      true
-    :build-options {:optimizations :none}}))
+    :build-options {:optimizations :none
+                    :preloads '[devtools.preload]}}))
 
 (defn- assoc-compiler [config options]
   (-> config
