@@ -25,6 +25,7 @@
                      :output-to  (str public-path "/js/main.js")
                      :output-dir (str public-path "/js")
                      :asset-path "js"
+                     :verbose    true
                      :optimizations :advanced}}))
 
 (defn- figwheel-build [config options]
