@@ -1,14 +1,37 @@
-# duct.module.cljs
+# Duct module.cljs
 
-A Clojure library designed to ... well, that part is up to you.
+A [Duct][] module that adds support for compiling ClojureScript for
+production and development.
+
+[duct]: https://github.com/duct-framework/duct
+
+## Installation
+
+To install, add the following to your project `:dependencies`:
+
+    [duct/module.cljs "0.1.0-SNAPSHOT"]
 
 ## Usage
 
-FIXME
+To add this module to your configuration, add a reference to
+`:duct.module/cljs` to `:duct.core/modules`. You'll need to specify
+your main ClojureScript namespace via the `:main` key:
+
+```edn
+{:duct.core/modules [#ref :duct.module/cljs]
+ :duct.module/cljs  {:main foo.client}}
+```
+
+This sets up the [compiler.cljs][] key for compiling with `lein duct
+compile`, and the [server.figwheel][] key for dynamically reloading
+ClojureScript files when calling `(reset)` in the REPL.
+
+[compiler.cljs]:   https://github.com/duct-framework/compiler.cljs
+[server.figwheel]: https://github.com/duct-framework/server.figwheel
 
 ## License
 
-Copyright © 2017 FIXME
+Copyright © 2017 James Reeves
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
