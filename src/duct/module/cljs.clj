@@ -2,9 +2,11 @@
   (:require [integrant.core :as ig]
             [clojure.string :as str]
             [duct.compiler.cljs :as cljs]
-            [duct.core :refer [assoc-in-default target-path]]
-            [duct.server.figwheel :as figwheel]
-            [meta-merge.core :refer [meta-merge]]))
+            [duct.core :as core]
+            [duct.server.figwheel :as figwheel]))
+
+(defn- get-environment [config options]
+  (:environment options (:duct.core/environment config :production)))
 
 (defn- project-ns [config options]
   (:project-ns options (:duct.core/project-ns config)))
@@ -16,38 +18,40 @@
   (name-to-path (project-ns config options)))
 
 (defn- target-public-path [config options]
-  (str target-path "/resources/" (project-dirs config options) "/public"))
+  (str core/target-path "/resources/" (project-dirs config options) "/public"))
 
-(defn- compiler-build [config options]
-  (let [public-path (target-public-path config options)]
-    {:source-paths  ["src"]
-     :build-options {:main       (:main options)
-                     :output-to  (str public-path "/js/main.js")
-                     :output-dir (str public-path "/js")
-                     :asset-path "js"
-                     :verbose    true
-                     :optimizations :advanced}}))
+(defn- compiler-config [path main]
+  {:duct.compiler/cljs
+   {:builds ^:displace
+    [{:source-paths  ["src"]
+      :build-options
+      {:main       main
+       :output-to  (str path "/js/main.js")
+       :output-dir (str path "/js")
+       :asset-path "js"
+       :verbose    true
+       :optimizations :advanced}}]}})
 
-(defn- figwheel-build [config options]
-  (meta-merge
-   (compiler-build config options)
-   {:id            "dev"
-    :figwheel      true
-    :build-options {:optimizations :none
-                    :preloads '[devtools.preload]}}))
-
-(defn- assoc-compiler [config options]
-  (-> config
-      (assoc-in-default [:duct.compiler/cljs :builds] [(compiler-build config options)])))
-
-(defn- assoc-figwheel [config options]
-  (-> config
-      (assoc-in-default [:duct.server/figwheel :css-dirs] ["dev/resources"])
-      (assoc-in-default [:duct.server/figwheel :builds] [(figwheel-build config options)])))
+(defn- figwheel-config [path main]
+  {:duct.server/figwheel
+   {:css-dirs ^:displace ["resources" "dev/resources"]
+    :builds   ^:displace
+    [{:id           "dev"
+      :figwheel     true
+      :source-paths ["dev/src" "src" ]
+      :build-options
+      {:main       main
+       :output-to  (str path "/js/main.js")
+       :output-dir (str path "/js")
+       :asset-path "js"
+       :verbose    true
+       :preloads   '[devtools.preload]
+       :optimizations :none}}]}})
 
 (defmethod ig/init-key :duct.module/cljs [_ options]
   (fn [config]
-    (let [env (:environment options (:duct.core/environment config :production))]
-      (cond-> config
-        (= env :production)  (assoc-compiler options)
-        (= env :development) (assoc-figwheel options)))))
+    (let [path (target-public-path config options)
+          main (:main options)]
+      (case (get-environment config options)
+        :production  (core/merge-configs config (compiler-config path main))
+        :development (core/merge-configs config (figwheel-config path main))))))
