@@ -1,5 +1,7 @@
 # Duct module.cljs
 
+[![Build Status](https://travis-ci.org/duct-framework/module.cljs.svg?branch=master)](https://travis-ci.org/duct-framework/module.cljs)
+
 A [Duct][] module that adds support for compiling ClojureScript for
 production and development.
 
