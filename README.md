@@ -11,7 +11,7 @@ production and development.
 
 To install, add the following to your project `:dependencies`:
 
-    [duct/module.cljs "0.1.1"]
+    [duct/module.cljs "0.1.2"]
 
 ## Usage
 
