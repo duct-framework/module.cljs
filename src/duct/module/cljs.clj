@@ -28,7 +28,7 @@
       {:main       main
        :output-to  (str path "/js/main.js")
        :output-dir (str path "/js")
-       :asset-path "js"
+       :asset-path "/js"
        :verbose    true
        :optimizations :advanced}}]}})
 
@@ -43,7 +43,7 @@
       {:main       main
        :output-to  (str path "/js/main.js")
        :output-dir (str path "/js")
-       :asset-path "js"
+       :asset-path "/js"
        :verbose    true
        :preloads   '[devtools.preload]
        :optimizations :none}}]}})

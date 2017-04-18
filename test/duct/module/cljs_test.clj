@@ -24,7 +24,7 @@
                       {:main       'foo.client
                        :output-to  (absolute-path "target/resources/foo/public/js/main.js")
                        :output-dir (absolute-path "target/resources/foo/public/js")
-                       :asset-path "js"
+                       :asset-path "/js"
                        :verbose    true
                        :optimizations :advanced}}]}}))))
 
@@ -42,7 +42,7 @@
                       {:main       'foo.client
                        :output-to  (absolute-path "target/resources/foo/public/js/main.js")
                        :output-dir (absolute-path "target/resources/foo/public/js")
-                       :asset-path "js"
+                       :asset-path "/js"
                        :verbose    true
                        :preloads   ['devtools.preload]
                        :optimizations :none}}]}}))))))
