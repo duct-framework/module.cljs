@@ -44,7 +44,7 @@
        :output-to  (str path "/js/main.js")
        :output-dir (str path "/js")
        :asset-path "/js"
-       :verbose    true
+       :verbose    false
        :preloads   '[devtools.preload]
        :optimizations :none}}]}})
 
