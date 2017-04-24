@@ -48,10 +48,12 @@
        :preloads   '[devtools.preload]
        :optimizations :none}}]}})
 
+(derive :duct.module/cljs :duct/module)
+
 (defmethod ig/init-key :duct.module/cljs [_ options]
-  (fn [config]
-    (let [path (target-public-path config options)
-          main (:main options)]
-      (case (get-environment config options)
-        :production  (core/merge-configs config (compiler-config path main))
-        :development (core/merge-configs config (figwheel-config path main))))))
+  {:fn (fn [config]
+         (let [path (target-public-path config options)
+               main (:main options)]
+           (case (get-environment config options)
+             :production  (core/merge-configs config (compiler-config path main))
+             :development (core/merge-configs config (figwheel-config path main)))))})

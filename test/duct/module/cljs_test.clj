@@ -7,7 +7,6 @@
 
 (def base-config
   {:duct.core/project-ns 'foo
-   :duct.core/modules    [(ig/ref :duct.module/cljs)]
    :duct.module/cljs     {:main 'foo.client}})
 
 (defn- absolute-path [relative-path]
