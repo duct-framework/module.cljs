@@ -7,6 +7,6 @@
                  [org.clojure/clojurescript "1.9.562"]
                  [binaryage/devtools "0.9.2"]
                  [duct/core "0.3.3"]
-                 [duct/compiler.cljs "0.1.1"]
-                 [duct/server.figwheel "0.1.2"]
+                 [duct/compiler.cljs "0.1.2"]
+                 [duct/server.figwheel "0.1.3"]
                  [integrant "0.4.0"]])
