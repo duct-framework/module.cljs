@@ -24,6 +24,7 @@
                        :output-to  (absolute-path "target/resources/foo/public/js/main.js")
                        :output-dir (absolute-path "target/resources/foo/public/js")
                        :asset-path "/js"
+                       :closure-defines {'goog.DEBUG false}
                        :verbose    true
                        :optimizations :advanced}}]}}))))
 
@@ -42,6 +43,7 @@
                        :output-to  (absolute-path "target/resources/foo/public/js/main.js")
                        :output-dir (absolute-path "target/resources/foo/public/js")
                        :asset-path "/js"
+                       :closure-defines {'goog.DEBUG true}
                        :verbose    false
                        :preloads   ['devtools.preload]
                        :optimizations :none}}]}}))))))
