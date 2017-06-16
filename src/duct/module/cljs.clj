@@ -29,6 +29,7 @@
        :output-to  (str path "/js/main.js")
        :output-dir (str path "/js")
        :asset-path "/js"
+       :closure-defines {'goog.DEBUG false}
        :verbose    true
        :optimizations :advanced}}]}})
 
@@ -44,6 +45,7 @@
        :output-to  (str path "/js/main.js")
        :output-dir (str path "/js")
        :asset-path "/js"
+       :closure-defines {'goog.DEBUG true}
        :verbose    false
        :preloads   '[devtools.preload]
        :optimizations :none}}]}})
