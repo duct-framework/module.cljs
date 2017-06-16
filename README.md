@@ -20,7 +20,7 @@ To add this module to your configuration, add a reference to
 your main ClojureScript namespace via the `:main` key:
 
 ```edn
-{:duct.core/modules [#ref :duct.module/cljs]
+{:duct.core/modules [#ig/ref :duct.module/cljs]
  :duct.module/cljs  {:main foo.client}}
 ```
 
