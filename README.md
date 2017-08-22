@@ -15,18 +15,18 @@ To install, add the following to your project `:dependencies`:
 
 ## Usage
 
-To add this module to your configuration, add a reference to
-`:duct.module/cljs` to `:duct.core/modules`. You'll need to specify
-your main ClojureScript namespace via the `:main` key:
+To add this module to your configuration, add the `:duct.module/cljs`
+key to your configuration. You'll need to specify your main
+ClojureScript namespace via the `:main` key:
 
 ```edn
-{:duct.core/modules [#ig/ref :duct.module/cljs]
- :duct.module/cljs  {:main foo.client}}
+{:duct.module/cljs {:main foo.client}}
 ```
 
-This sets up the [compiler.cljs][] key for compiling with `lein duct
-compile`, and the [server.figwheel][] key for dynamically reloading
-ClojureScript files when calling `(reset)` in the REPL.
+This sets up the [compiler.cljs][] key for compiling wvia `lein run
+:duct/compiler`, and the [server.figwheel][] key for dynamically
+reloading ClojureScript files during development when calling
+`(reset)` in the REPL.
 
 [compiler.cljs]:   https://github.com/duct-framework/compiler.cljs
 [server.figwheel]: https://github.com/duct-framework/server.figwheel
