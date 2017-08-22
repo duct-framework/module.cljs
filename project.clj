@@ -1,4 +1,4 @@
-(defproject duct/module.cljs "0.2.3"
+(defproject duct/module.cljs "0.3.0"
   :description "Duct module for developing and compiling ClojureScript"
   :url "https://github.com/duct-framework/module.cljs"
   :license {:name "Eclipse Public License"
