@@ -5,6 +5,8 @@
             [duct.module.cljs :as cljs]
             [integrant.core :as ig]))
 
+(core/load-hierarchy)
+
 (def base-config
   {:duct.core/project-ns 'foo
    :duct.module/cljs     {:main 'foo.client}})

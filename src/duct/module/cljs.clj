@@ -1,9 +1,7 @@
 (ns duct.module.cljs
-  (:require [integrant.core :as ig]
-            [clojure.string :as str]
-            [duct.compiler.cljs :as cljs]
+  (:require [clojure.string :as str]
             [duct.core :as core]
-            [duct.server.figwheel :as figwheel]))
+            [integrant.core :as ig]))
 
 (defn- get-environment [config options]
   (:environment options (:duct.core/environment config :production)))
@@ -49,8 +47,6 @@
        :verbose    false
        :preloads   '[devtools.preload]
        :optimizations :none}}]}})
-
-(derive :duct.module/cljs :duct/module)
 
 (defmethod ig/init-key :duct.module/cljs [_ options]
   {:fn (fn [config]
