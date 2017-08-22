@@ -5,7 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.9.0-alpha17"]
                  [org.clojure/clojurescript "1.9.908"]
-                 [binaryage/devtools "0.9.2"]
+                 [binaryage/devtools "0.9.3"]
                  [duct/core "0.6.0"]
                  [duct/compiler.cljs "0.2.0"]
                  [duct/server.figwheel "0.2.0"]
