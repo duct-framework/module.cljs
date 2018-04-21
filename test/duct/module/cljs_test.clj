@@ -20,7 +20,7 @@
   (.getAbsolutePath (io/file relative-path)))
 
 (deftest service-worker-module-test
-  (testing "production config"
+  (testing "production config with service worker"
     (is (= (core/prep service-worker-base-config)
            (merge service-worker-base-config
                   {:duct.compiler/cljs
@@ -49,7 +49,7 @@
                        :verbose    true
                        :optimizations :advanced}}]}}))))
 
-  (testing "development config"
+  (testing "development config with service worker"
     (let [config (assoc service-worker-base-config ::core/environment :development)]
       (is (= (core/prep config)
            (merge config
@@ -86,7 +86,7 @@
                        :optimizations :none}}]}}))))))
 
 (deftest module-test
-  (testing "production config"
+  (testing "production config without service worker"
     (is (= (core/prep base-config)
            (merge base-config
                   {:duct.compiler/cljs
@@ -102,7 +102,7 @@
                                      :verbose    true
                                      :optimizations :advanced}}]}}))))
 
-  (testing "development config"
+  (testing "development config without service worker"
     (let [config (assoc base-config ::core/environment :development)]
       (is (= (core/prep config)
              (merge config
