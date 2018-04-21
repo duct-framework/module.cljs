@@ -18,10 +18,23 @@
 (defn- target-public-path [config options]
   (str core/target-path "/resources/" (project-dirs config options) "/public"))
 
-(defn- compiler-config [path main]
+(defn- compiler-config [path main sw-main]
   {:duct.compiler/cljs
    {:builds ^:displace
-    [{:source-paths  ["src"]
+    [(when sw-main
+       {:id "sw"
+        :source-paths ["src"]
+        :build-options
+        {:main sw-main
+         :output-to (src path "/sw.js")
+         :output-dir (src path "/sw")
+         :asset-path "/sw"
+         :closure-defines {'goog.DEBUG false}
+         :verbose true
+         :infer-externs true
+         :optimizations :advanced
+         :target :webworker}})
+     {:source-paths  ["src"]
       :build-options
       {:main       main
        :output-to  (str path "/js/main.js")
@@ -31,13 +44,27 @@
        :verbose    true
        :optimizations :advanced}}]}})
 
-(defn- figwheel-config [path main]
+(defn- figwheel-config [path main sw-main]
   {:duct.server/figwheel
    {:css-dirs ^:displace ["resources" "dev/resources"]
     :builds   ^:displace
-    [{:id           "dev"
+    [{:id "sw-dev"
+      :figwheel false
+      :source-paths ["dev/src" "src"]
+      :build-options
+      {:main       sw-main
+       :output-to  (str path "/sw.js")
+       :output-dir (str path "/sw")
+       :asset-path "/sw"
+       :closure-defines {'goog.DEBUG true}
+       :verbose    false
+       :infer-externs true
+       :preloads   '[devtools.preload]
+       :optimizations :none
+       :target :webworker}}
+     {:id           "dev"
       :figwheel     true
-      :source-paths ["dev/src" "src" ]
+      :source-paths ["dev/src" "src"]
       :build-options
       {:main       main
        :output-to  (str path "/js/main.js")
@@ -51,7 +78,8 @@
 (defmethod ig/init-key :duct.module/cljs [_ options]
   {:fn (fn [config]
          (let [path (target-public-path config options)
+               sw-main (:sw-main options)
                main (:main options)]
            (case (get-environment config options)
-             :production  (core/merge-configs config (compiler-config path main))
-             :development (core/merge-configs config (figwheel-config path main)))))})
+             :production  (core/merge-configs config (compiler-config path main sw-main))
+             :development (core/merge-configs config (figwheel-config path main sw-main)))))})
