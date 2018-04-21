@@ -9,7 +9,8 @@
 
 (def base-config
   {:duct.core/project-ns 'foo
-   :duct.module/cljs     {:main 'foo.client}})
+   :duct.module/cljs     {:main 'foo.client
+                          :sw-main 'foo.sw}})
 
 (defn- absolute-path [relative-path]
   (.getAbsolutePath (io/file relative-path)))
@@ -20,7 +21,21 @@
            (merge base-config
                   {:duct.compiler/cljs
                    {:builds
-                    [{:source-paths ["src"]
+                    [{:id "sw"
+                      :source-paths ["src"]
+                      :build-options
+                      {:main 'foo.sw
+                       :output-to   (absolute-path "target/resources/foo/public/sw.js")
+                       :output-dir (absolute-path "target/resources/foo/public/sw")
+                       :asset-path "/sw"
+                       :closure-defines {'goog.DEBUG false}
+                       :verbose true
+                       :infer-externs true
+                       :language-in :es6
+                       :rewrite-polyfills true
+                       :optimizations :advanced
+                       :target :webworker}}
+                     {:source-paths ["src"]
                       :build-options
                       {:main       'foo.client
                        :output-to  (absolute-path "target/resources/foo/public/js/main.js")
@@ -37,7 +52,23 @@
                   {:duct.server/figwheel
                    {:css-dirs ["resources" "dev/resources"]
                     :builds
-                    [{:id           "dev"
+                    [{:id "sw-dev"
+                      :figwheel false
+                      :source-paths ["dev/src" "src"]
+                      :build-options
+                      {:main       'foo.sw
+                       :output-to   (absolute-path "target/resources/foo/public/sw.js")
+                       :output-dir (absolute-path "target/resources/foo/public/sw")
+                       :asset-path "/sw"
+                       :closure-defines {'goog.DEBUG true}
+                       :verbose    false
+                       :infer-externs true
+                       :language-in :es6
+                       :rewrite-polyfills true
+                       :preloads   '[devtools.preload]
+                       :optimizations :none
+                       :target :webworker}}
+                     {:id           "dev"
                       :figwheel     true
                       :source-paths ["dev/src" "src"]
                       :build-options
