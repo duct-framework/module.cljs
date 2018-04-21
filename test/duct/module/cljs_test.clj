@@ -91,7 +91,8 @@
            (merge base-config
                   {:duct.compiler/cljs
                    {:builds
-                    [{:source-paths ["src"]
+                    [nil
+                     {:source-paths ["src"]
                       :build-options
                                     {:main       'foo.client
                                      :output-to  (absolute-path "target/resources/foo/public/js/main.js")
@@ -108,7 +109,8 @@
                     {:duct.server/figwheel
                      {:css-dirs ["resources" "dev/resources"]
                       :builds
-                                [{:id           "dev"
+                                [nil
+                                 {:id           "dev"
                                   :figwheel     true
                                   :source-paths ["dev/src" "src"]
                                   :build-options
