@@ -50,7 +50,7 @@
                        :optimizations :advanced}}]}}))))
 
   (testing "development config"
-    (let [config (assoc base-config ::core/environment :development)]
+    (let [config (assoc service-worker-base-config ::core/environment :development)]
       (is (= (core/prep config)
            (merge config
                   {:duct.server/figwheel
