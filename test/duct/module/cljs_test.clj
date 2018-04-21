@@ -7,18 +7,22 @@
 
 (core/load-hierarchy)
 
-(def base-config
+(def service-worker-base-config
   {:duct.core/project-ns 'foo
    :duct.module/cljs     {:main 'foo.client
                           :sw-main 'foo.sw}})
 
+(def base-config
+  {:duct.core/project-ns 'foo
+   :duct.module/cljs     {:main 'foo.client}})
+
 (defn- absolute-path [relative-path]
   (.getAbsolutePath (io/file relative-path)))
 
-(deftest module-test
+(deftest service-worker-module-test
   (testing "production config"
-    (is (= (core/prep base-config)
-           (merge base-config
+    (is (= (core/prep service-worker-base-config)
+           (merge service-worker-base-config
                   {:duct.compiler/cljs
                    {:builds
                     [{:id "sw"
@@ -80,3 +84,39 @@
                        :verbose    false
                        :preloads   ['devtools.preload]
                        :optimizations :none}}]}}))))))
+
+(deftest module-test
+  (testing "production config"
+    (is (= (core/prep base-config)
+           (merge base-config
+                  {:duct.compiler/cljs
+                   {:builds
+                    [{:source-paths ["src"]
+                      :build-options
+                                    {:main       'foo.client
+                                     :output-to  (absolute-path "target/resources/foo/public/js/main.js")
+                                     :output-dir (absolute-path "target/resources/foo/public/js")
+                                     :asset-path "/js"
+                                     :closure-defines {'goog.DEBUG false}
+                                     :verbose    true
+                                     :optimizations :advanced}}]}}))))
+
+  (testing "development config"
+    (let [config (assoc base-config ::core/environment :development)]
+      (is (= (core/prep config)
+             (merge config
+                    {:duct.server/figwheel
+                     {:css-dirs ["resources" "dev/resources"]
+                      :builds
+                                [{:id           "dev"
+                                  :figwheel     true
+                                  :source-paths ["dev/src" "src"]
+                                  :build-options
+                                                {:main       'foo.client
+                                                 :output-to  (absolute-path "target/resources/foo/public/js/main.js")
+                                                 :output-dir (absolute-path "target/resources/foo/public/js")
+                                                 :asset-path "/js"
+                                                 :closure-defines {'goog.DEBUG true}
+                                                 :verbose    false
+                                                 :preloads   ['devtools.preload]
+                                                 :optimizations :none}}]}}))))))
