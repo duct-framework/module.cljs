@@ -23,7 +23,7 @@ ClojureScript namespace via the `:main` key:
 {:duct.module/cljs {:main foo.client}}
 ```
 
-This sets up the [compiler.cljs][] key for compiling wvia `lein run
+This sets up the [compiler.cljs][] key for compiling via `lein run
 :duct/compiler`, and the [server.figwheel][] key for dynamically
 reloading ClojureScript files during development when calling
 `(reset)` in the REPL.
