@@ -9,7 +9,7 @@ production and development.
 
 To install, add the following to your project `:dependencies`:
 
-    [duct/module.cljs "0.4.1"]
+    [org.duct-framework/module.cljs "0.4.1"]
 
 ## Usage
 
