@@ -31,7 +31,7 @@ reloading ClojureScript files during development when calling
 
 ## License
 
-Copyright © 2019 James Reeves
+Copyright © 2024 James Reeves
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
