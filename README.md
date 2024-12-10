@@ -7,7 +7,11 @@ production and development.
 
 ## Installation
 
-To install, add the following to your project `:dependencies`:
+Add the following dependency to your deps.edn file:
+
+    org.duct-framework/module.cljs {:mvn/version "0.4.1"}
+
+Or to your Leiningen project file:
 
     [org.duct-framework/module.cljs "0.4.1"]
 
