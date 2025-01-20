@@ -1,7 +1,7 @@
 # Duct ClojureScript Module [![Build Status](https://github.com/duct-framework/module.cljs/actions/workflows/test.yml/badge.svg)](https://github.com/duct-framework/module.cljs/actions/workflows/test.yml)
 
 A [Duct][] module that adds support for compiling ClojureScript for
-production and development.
+use in web applications.
 
 [duct]: https://github.com/duct-framework/duct
 
@@ -17,21 +17,39 @@ Or to your Leiningen project file:
 
 ## Usage
 
-To add this module to your configuration, add the `:duct.module/cljs`
-key to your configuration. You'll need to specify your main
-ClojureScript namespace via the `:main` key:
+Add the `:duct.module/cljs`key to your configuration and define a build:
 
 ```edn
-{:duct.module/cljs {:main foo.client}}
+{:duct.module/cljs {:builds {:client example.client}}}
 ```
 
-This sets up the [compiler.cljs][] key for compiling via `lein run
-:duct/compiler`, and the [server.figwheel][] key for dynamically
-reloading ClojureScript files during development when calling
-`(reset)` in the REPL.
+This configuration will generate a file `target/cljs/client.js` from the
+`example.client` namespace. You can also define multiple namespaces to
+compile into a single output:
 
-[compiler.cljs]:   https://github.com/duct-framework/compiler.cljs
-[server.figwheel]: https://github.com/duct-framework/server.figwheel
+```edn
+{:duct.module/cljs {:builds {:client [example.foo example.bar]}}}
+```
+
+The `target/cljs` folder will be added to the web application's static
+file handler, `:duct.handler/file`. This will make the JavaScript output
+accessible at `/cljs/client.js`.
+
+Defining multiple builds generates multiple output files:
+
+```edn
+{:duct.module/cljs
+ {:builds {:foo example.foo, :bar example.bar}}}
+```
+
+The above example would generate `target/cljs/foo.js` and
+`target/cljs/bar.js`.
+
+When run in under the REPL profile, a server will be started that will
+update the compiled JavaScript each time the environment is `(reset)`.
+
+When run in under the main profile, the ClojureScript will be compiled
+for production. This will be slower, but produce a smaller output.
 
 ## License
 
