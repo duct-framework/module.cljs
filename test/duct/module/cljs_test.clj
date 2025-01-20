@@ -13,7 +13,7 @@
                      :asset-path "/cljs"
                      :modules {:main {:init-fn 'client/test}}}}}
            (ig/expand
-            {:duct.module/cljs {:modules {:main 'client/test}}}
+            {:duct.module/cljs {:builds {:main 'client/test}}}
             (ig/deprofile [:main])))))
 
   (testing "repl config"
@@ -25,5 +25,5 @@
                      :asset-path "/cljs"
                      :modules {:main {:init-fn 'client/test}}}}}
            (ig/expand
-            {:duct.module/cljs {:modules {:main 'client/test}}}
+            {:duct.module/cljs {:builds {:main 'client/test}}}
             (ig/deprofile [:repl]))))))

@@ -9,7 +9,7 @@
     :else                   mod))
 
 (defmethod ig/expand-key :duct.module/cljs
-  [_ {:keys [modules]}]
+  [_ {:keys [builds]}]
   {:duct.handler/file
    {:paths {"/cljs" {:root "target/cljs"}}}
    (ig/profile :main :duct.compiler.cljs.shadow/release
@@ -17,4 +17,4 @@
    {:build {:target :browser
             :output-dir "target/cljs"
             :asset-path "/cljs"
-            :modules (update-vals modules desugar-module)}}})
+            :modules (update-vals builds desugar-module)}}})
