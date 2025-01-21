@@ -31,7 +31,7 @@ compile into a single output:
 {:duct.module/cljs {:builds {:client [example.foo example.bar]}}}
 ```
 
-The `target/cljs` folder will be added to the web application's static
+The `target/cljs` directory will be added to the web application's static
 file handler, `:duct.handler/file`. This will make the JavaScript output
 accessible at `/cljs/client.js`.
 
@@ -50,6 +50,14 @@ update the compiled JavaScript each time the environment is `(reset)`.
 
 When run in under the main profile, the ClojureScript will be compiled
 for production. This will be slower, but produce a smaller output.
+
+The module can be configured further with the options:
+
+- `:output-dir` - the directory to put the compiled JavaScript in
+  (defaults to `"target/cljs"`)
+- `:asset-path` - the web server path where the compiled JavaScript can
+  be accessed (defaults to `"/cljs"`)
+
 
 ## License
 

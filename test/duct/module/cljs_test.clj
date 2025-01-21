@@ -26,4 +26,19 @@
                      :modules {:main {:init-fn 'client/test}}}}}
            (ig/expand
             {:duct.module/cljs {:builds {:main 'client/test}}}
+            (ig/deprofile [:repl])))))
+
+  (testing "custom paths"
+    (is (= {:duct.handler/file
+            {:paths {"/js" {:root "builds/js"}}}
+            :duct.compiler.cljs.shadow/server
+            {:build {:target :browser
+                     :output-dir "builds/js"
+                     :asset-path "/js"
+                     :modules {:main {:init-fn 'client/test}}}}}
+           (ig/expand
+            {:duct.module/cljs
+             {:builds {:main 'client/test}
+              :output-dir "builds/js"
+              :asset-path "/js"}}
             (ig/deprofile [:repl]))))))
