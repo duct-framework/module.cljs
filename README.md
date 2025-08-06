@@ -9,11 +9,11 @@ use in web applications.
 
 Add the following dependency to your deps.edn file:
 
-    org.duct-framework/module.cljs {:mvn/version "0.5.0"}
+    org.duct-framework/module.cljs {:mvn/version "0.5.1"}
 
 Or to your Leiningen project file:
 
-    [org.duct-framework/module.cljs "0.5.0"]
+    [org.duct-framework/module.cljs "0.5.1"]
 
 ## Usage
 
