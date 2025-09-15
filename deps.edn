@@ -1,5 +1,5 @@
-{:deps {org.clojure/clojure {:mvn/version "1.12.1"}
+{:deps {org.clojure/clojure {:mvn/version "1.12.2"}
         org.clojure/clojurescript {:mvn/version "1.12.42"}
         binaryage/devtools {:mvn/version "1.0.7"}
-        org.duct-framework/compiler.cljs.shadow {:mvn/version "0.1.3"}
-        integrant/integrant {:mvn/version "0.13.1"}}}
+        org.duct-framework/compiler.cljs.shadow {:mvn/version "0.1.4"}
+        integrant/integrant {:mvn/version "1.0.0"}}}
