@@ -14,6 +14,7 @@
   {:duct.handler/file
    {:paths {asset-path {:root output-dir}}}
    (ig/profile :main :duct.compiler.cljs.shadow/release
+               :test :duct.compiler.cljs.shadow/release
                :repl :duct.compiler.cljs.shadow/server)
    {:build {:target :browser
             :output-dir output-dir
