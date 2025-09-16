@@ -1,0 +1,21 @@
+{:duct.module/cljs
+ {:doc
+  "A module that adds support for compiling ClojureScript for use in the
+  browser.
+
+  Takes the following options:
+  - `:asset-path` - the web server path where the compiled JavaScript can
+                    be accessed (defaults to `/cljs`)
+  - `:builds`     - a map of keywords to ClojureScript namespace symbols
+  - `:output-dir` - the directory to put the compiled JavaScript in
+                    (defaults to `target/cljs`)
+
+  In the `:repl` profile the module will create a development server that
+  will compile and push ClojureScript changes to the browser. In the `:main`
+  and `:test` profiles, it will compile the ClojureScript once to production-
+  ready JavaScript.
+
+  The `:builds` map determines where the compiled ClojureScript is placed.
+  The keys determine the name of the asset (for example, `:client` will
+  place the compiled JavaScript in `client.js`), while the values determine
+  the ClojureScript namespaces to be places into the JavaScript asset."}}
