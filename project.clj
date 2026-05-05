@@ -6,5 +6,5 @@
   :dependencies [[org.clojure/clojure "1.12.4"]
                  [org.clojure/clojurescript "1.12.134"]
                  [binaryage/devtools "1.0.7"]
-                 [org.duct-framework/compiler.cljs.shadow "0.1.4"]
+                 [org.duct-framework/compiler.cljs.simple "0.1.0"]
                  [integrant "1.0.1"]])

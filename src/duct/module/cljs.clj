@@ -1,22 +1,32 @@
 (ns duct.module.cljs
-  (:require [integrant.core :as ig]))
-
-(defn- desugar-module [mod]
-  (cond
-    (qualified-symbol? mod) {:init-fn mod}
-    (symbol? mod)           {:entries [mod]}
-    (vector? mod)           {:entries mod}
-    :else                   mod))
+  (:require [clojure.java.io :as io]
+            [integrant.core :as ig]))
 
 (defmethod ig/expand-key :duct.module/cljs
-  [_ {:keys [asset-path builds output-dir]
+  [_ {:keys [asset-path main output-file output-dir]
       :or   {asset-path "/cljs", output-dir "target/cljs"}}]
-  {:duct.handler/file
-   {:paths {asset-path {:root output-dir}}}
-   (ig/profile :main :duct.compiler.cljs.shadow/release
-               :test :duct.compiler.cljs.shadow/release
-               :repl :duct.compiler.cljs.shadow/server)
-   {:build {:target :browser
-            :output-dir output-dir
-            :asset-path asset-path
-            :modules (update-vals builds desugar-module)}}})
+  (let [release-build
+        {:duct.handler/file
+         {:paths {asset-path {:root output-dir}}}
+         :duct.compiler.cljs.simple/build
+         {:asset-path    asset-path
+          :logger        (ig/refset :duct/logger)
+          :main          main
+          :output-dir    output-dir
+          :output-to     (str (io/file output-dir output-file))
+          :optimizations :advanced}}
+        dev-build
+        {:duct.handler/file
+         {:paths {asset-path {:root output-dir}}}
+         :duct.compiler.cljs.simple/build
+         {:asset-path    asset-path
+          :logger        (ig/refset :duct/logger)
+          :main          main
+          :output-dir    output-dir
+          :output-to     (str (io/file output-dir output-file))
+          :optimizations :none
+          :preloads      ['duct.client.repl.simple.preload]}
+         :duct.compiler.cljs.simple/server
+         {:logger (ig/refset :duct/logger)
+          :build  (ig/ref :duct.compiler.cljs.simple/build)}}]
+    (ig/profile :main release-build, :test release-build, :repl dev-build))) 
