@@ -44,7 +44,7 @@ for production. This will be slower, but produce a smaller output.
 
 ## License
 
-Copyright © 2025 James Reeves
+Copyright © 2026 James Reeves
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
